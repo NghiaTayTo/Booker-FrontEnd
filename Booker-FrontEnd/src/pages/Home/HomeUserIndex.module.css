@@ -1,0 +1,107 @@
+.parent {
+    background-color: #f8f9fa;
+    padding-bottom: 20px;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.bannerSection {
+    display: flex;
+    justify-content: space-between;
+}
+
+.banner {
+    width: 74%;
+    height: 290px;
+    /* border-radius: 10px; */
+    object-fit: cover;
+    margin-top: 10px;
+}
+
+.section {
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.productCard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.productCard:hover {
+    transform: scale(1.05);
+}
+
+.productImage {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.productName {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.productPrice {
+    font-size: 14px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.viewMoreButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.viewMoreButton:hover {
+    background-color: #0056b3;
+}
+.menuBar{
+    width: 296px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #7b7a7a;
+    border-top: 1px solid #ccc;
+}
+.menuBar > ul > li{
+    padding: 12px 0;
+    width: 100% !important;
+    cursor: pointer;
+}
+.arrowR{
+    float: right;
+    font-size: 12px;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+.menuBar > ul > li:hover{
+    color: #f25821;
+}
