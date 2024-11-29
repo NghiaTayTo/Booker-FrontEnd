@@ -1,0 +1,169 @@
+.parent {
+    background-color: #f8f8f8;
+    padding: 20px;
+}
+
+.orderContainer {
+    max-width: 800px;
+    margin: auto;
+}
+
+.orderTitle {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.orderList {
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.orderItem {
+    background-color: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.orderSummary, .orderStatus, .orderActions {
+    display: flex;
+    flex-direction: column;
+}
+
+.cancelButton {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+
+
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.orderDetailsContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+    font-size: 16px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.orderDetailItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+}
+
+
+.productImage {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+    border-radius: 8px;
+}
+
+.orderDetailStatus {
+    font-size: 16px;
+    color: #666;
+}
+
+.cancelModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 600px;
+    max-width: 90%;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.buttonDonHang{
+    background-color: #000;
+    margin: 5px;
+    color: #fff;
+    border-radius: 10px;
+
+    padding: 10px;
+    
+}
+
+.orderTabs :hover{
+    background-color: #f96565;
+}
+.reasonOptions{
+    font-size: 16px;
+
+}
+.reasonOptions label{
+    display: block;
+    cursor: pointer;
+}
+.closeModalButton, .confirmCancelButton{
+    background-color: #fff;
+    color: red;
+    margin-top: 20px;
+}
+.invoiceImage{
+    width: 50%;
+}
+.orderTabs{
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+   
+
+}
