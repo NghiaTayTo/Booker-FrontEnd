@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import HeaderUser from "../Component/HeaderUser";
 import FooterUser from "../Component/FooterUser";
 import axios from "axios";
-import styles from "./HomeUser.module.css"; 
+import styles from "./PageSeller.module.css"; 
 import { useNavigate } from "react-router-dom";
 
 const StorePage = () => {
@@ -85,7 +85,7 @@ const StorePage = () => {
                         <div className={styles.imageContainer}>
                             <img
                                 className={styles.productImage}
-                                src={`/images/${product.anh_san_pham}`}
+                                src={product.anh_san_pham}
                                 alt={product.ten_san_pham}
                             />
                         </div>

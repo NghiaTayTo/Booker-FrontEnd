@@ -27,13 +27,18 @@ const Login = () => {
                 // Lưu thông tin người dùng vào localStorage nếu cần
                 sessionStorage.setItem('user', JSON.stringify(response.data.result));
                 sessionStorage.setItem('id_tai_khoan', response.data.result.id_tai_khoan);
-                console.log(123)
-
+                
+                console.log(response.data.result.vai_tro.ma_vai_tro)
+                
                 // Chuyển hướng đến trang /HomeUser sau khi đăng nhập thành công
                 navigate("/HomeUserIndex");
+                if(response.data.result.vai_tro.ma_vai_tro == 3){
+                    navigate('/admin');
+                }
             } else {
                 setError(response.data.message || "Đăng nhập thất bại");
             }
+            
         } catch (err) {
             setError("Có lỗi xảy ra khi đăng nhập");
             console.error("Lỗi đăng nhập:", err);

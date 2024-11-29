@@ -105,3 +105,34 @@
 .menuBar > ul > li:hover{
     color: #f25821;
 }
+.carouselinner {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.carouselitem {
+    flex: 0 0 100%;
+    transition: transform 0.5s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+}
+
+.carousel-item.active {
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+    transform: translateX(0);
+}
+
+.carouselitem img {
+    display: block;
+    width: 100%;
+    height: auto;
+}

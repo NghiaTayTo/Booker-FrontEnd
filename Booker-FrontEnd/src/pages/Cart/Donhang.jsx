@@ -67,6 +67,47 @@ const DonHang = () => {
         }
     };
 
+    // Hàm xử lý xác nhận nhận hàng
+    const confirmReceivedOrderDetail = async (orderDetailId) => {
+        try {
+            await axios.put(`http://localhost:8080/api/v1/orderdetail/nhan/${orderDetailId}`);
+            
+            const updatedOrderDetails = orderDetails.map(detail =>
+                detail.ma_don_hang_chi_tiet === orderDetailId
+                    ? { ...detail, trang_thai: { ma_trang_thai: 13, ten_trang_thai: "Đã giao hàng" } }
+                    : detail
+            );
+
+            setOrderDetails(updatedOrderDetails);
+            setFilteredOrderDetails(updatedOrderDetails.filter(detail => currentFilter === "Tất cả" || detail.trang_thai?.ten_trang_thai === currentFilter));
+            alert("Đơn hàng đã được xác nhận nhận hàng");
+        } catch (error) {
+            console.error("Lỗi khi xác nhận nhận hàng:", error);
+        }
+    };
+    const confirmTraHang = async (orderDetailId) => {
+        try {
+            // Gọi API để cập nhật trạng thái đơn hàng
+            await axios.put(`http://localhost:8080/api/v1/orderdetail/tra/${orderDetailId}`);
+    
+            // Cập nhật trạng thái đơn hàng trong frontend
+            const updatedOrderDetails = orderDetails.map(detail =>
+                detail.ma_don_hang_chi_tiet === orderDetailId
+                    ? { ...detail, trang_thai: { ma_trang_thai: 15, ten_trang_thai: "Yêu cầu trả hàng / Hoàn tiền" } }
+                    : detail
+            );
+    
+            // Cập nhật lại danh sách đơn hàng sau khi thay đổi trạng thái
+            setOrderDetails(updatedOrderDetails);
+            setFilteredOrderDetails(updatedOrderDetails.filter(detail => currentFilter === "Tất cả" || detail.trang_thai?.ten_trang_thai === currentFilter));
+    
+            alert("Yêu cầu trả hàng/Hoàn tiền đã được gửi.");
+        } catch (error) {
+            console.error("Lỗi khi yêu cầu trả hàng/Hoàn tiền:", error);
+        }
+    };
+    
+
     return (
         <div className={styles.parent}>
             <HeaderUser />
@@ -98,6 +139,13 @@ const DonHang = () => {
                             {detail.trang_thai?.ten_trang_thai === "Đang xử lý" && (
                                 <button className={styles.cancelButton} onClick={() => handleCancelOrderDetail(detail.ma_don_hang_chi_tiet)}>Huỷ đơn hàng</button>
                             )}
+                            {/* Hiển thị nút "Đã nhận hàng" nếu trạng thái là "Đang vận chuyển" */}
+                            {detail.trang_thai?.ma_trang_thai === 12 && (
+                                <button className={styles.cancelButton} onClick={() => confirmReceivedOrderDetail(detail.ma_don_hang_chi_tiet)}>Đã nhận hàng</button>
+                            )}
+                            {detail.trang_thai?.ma_trang_thai === 13 && (
+                                <button className={styles.cancelButton} onClick={() => confirmTraHang(detail.ma_don_hang_chi_tiet)}>Yêu cầu trả hàng/Hoàn tiền</button>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -115,8 +163,8 @@ const DonHang = () => {
                                 <label><input type="radio" name="reason" value="Không lý do phù hợp" onChange={(e) => setSelectedReason(e.target.value)} /> Tôi không tìm thấy lý do hủy phù hợp</label>
                             </div>
                             <div className={styles.modalActions}>
-                                <button onClick={() => setShowCancelModal(false)} className={styles.closeModalButton}>Không phải bây giờ</button>
-                                <button onClick={confirmCancelOrderDetail} className={styles.confirmCancelButton}>Huỷ đơn hàng</button>
+                                <button onClick={() => setShowCancelModal(false)} className={styles.cancelButton}>Đóng</button>
+                                <button onClick={confirmCancelOrderDetail} className={styles.cancelButton}>Xác nhận hủy</button>
                             </div>
                         </div>
                     </div>

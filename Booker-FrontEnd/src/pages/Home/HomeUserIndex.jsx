@@ -94,21 +94,21 @@ const HomeUserIndex = () => {
                     alt="Banner 1"
                     className={styles.banner}
                 /> */}
-                {/* <div id="carouselExampleIndicators" class="carousel slide">
+                <div id="carouselExampleIndicators" class="carousel slide">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" class="d-block w-100" alt="..." />
+                    <div className={styles.carouselinner}>
+                        <div className={styles.carouselitem}>
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" />
                         </div>
-                        <div class="carousel-item">
-                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" class="d-block w-100" alt="..." />
+                        <div className="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" />
                         </div>
-                        <div class="carousel-item">
-                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" class="d-block w-100" alt="..." />
+                        <div className="carousel-item">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" />
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -119,7 +119,7 @@ const HomeUserIndex = () => {
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
-                </div> */}
+                </div>
             </section>
 
             {/* Hiển thị sản phẩm */}
