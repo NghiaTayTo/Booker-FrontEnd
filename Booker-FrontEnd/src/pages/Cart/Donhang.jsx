@@ -10,7 +10,7 @@ const DonHang = () => {
     const [selectedReason, setSelectedReason] = useState("");
     const [showCancelModal, setShowCancelModal] = useState(false);
     const [orderDetailToCancel, setOrderDetailToCancel] = useState(null);
-    const [currentFilter, setCurrentFilter] = useState("Tất cả");
+    const [activeStatus, setActiveStatus] = useState("Tất cả");
 
     useEffect(() => {
         const fetchAllOrderDetails = async () => {
@@ -26,15 +26,11 @@ const DonHang = () => {
         fetchAllOrderDetails();
     }, []);
 
-    const filterOrderDetails = (filter) => {
-        setCurrentFilter(filter);
-        if (filter === "Tất cả") {
-            setFilteredOrderDetails(orderDetails);
-        } else {
-            setFilteredOrderDetails(
-                orderDetails.filter(detail => detail.trang_thai?.ten_trang_thai === filter)
-            );
-        }
+    const filterOrderDetails = (status) => {
+        setActiveStatus(status); // Cập nhật trạng thái đã chọn
+        // Thực hiện lọc đơn hàng dựa trên trạng thái
+        const filteredOrders = orderDetails.filter(order => order.trang_thai?.ten_trang_thai === status || status === "Tất cả");
+        setFilteredOrderDetails(filteredOrders); // Cập nhật danh sách đơn hàng sau khi lọc
     };
 
     const handleCancelOrderDetail = (orderDetailId) => {
@@ -58,20 +54,18 @@ const DonHang = () => {
             );
 
             setOrderDetails(updatedOrderDetails);
-            setFilteredOrderDetails(updatedOrderDetails.filter(detail => currentFilter === "Tất cả" || detail.trang_thai?.ten_trang_thai === currentFilter));
+            setFilteredOrderDetails(updatedOrderDetails.filter(detail => activeStatus === "Tất cả" || detail.trang_thai?.ten_trang_thai === activeStatus));
 
             setShowCancelModal(false);
-            alert("Đơn hàng đã gửi yêu cầu hủy");
         } catch (error) {
             console.error("Lỗi khi hủy đơn hàng:", error);
         }
     };
 
-    // Hàm xử lý xác nhận nhận hàng
     const confirmReceivedOrderDetail = async (orderDetailId) => {
         try {
             await axios.put(`http://localhost:8080/api/v1/orderdetail/nhan/${orderDetailId}`);
-            
+
             const updatedOrderDetails = orderDetails.map(detail =>
                 detail.ma_don_hang_chi_tiet === orderDetailId
                     ? { ...detail, trang_thai: { ma_trang_thai: 13, ten_trang_thai: "Đã giao hàng" } }
@@ -79,73 +73,95 @@ const DonHang = () => {
             );
 
             setOrderDetails(updatedOrderDetails);
-            setFilteredOrderDetails(updatedOrderDetails.filter(detail => currentFilter === "Tất cả" || detail.trang_thai?.ten_trang_thai === currentFilter));
+            setFilteredOrderDetails(updatedOrderDetails.filter(detail => activeStatus === "Tất cả" || detail.trang_thai?.ten_trang_thai === activeStatus));
             alert("Đơn hàng đã được xác nhận nhận hàng");
         } catch (error) {
             console.error("Lỗi khi xác nhận nhận hàng:", error);
         }
     };
+
     const confirmTraHang = async (orderDetailId) => {
         try {
-            // Gọi API để cập nhật trạng thái đơn hàng
             await axios.put(`http://localhost:8080/api/v1/orderdetail/tra/${orderDetailId}`);
-    
-            // Cập nhật trạng thái đơn hàng trong frontend
+
             const updatedOrderDetails = orderDetails.map(detail =>
                 detail.ma_don_hang_chi_tiet === orderDetailId
                     ? { ...detail, trang_thai: { ma_trang_thai: 15, ten_trang_thai: "Yêu cầu trả hàng / Hoàn tiền" } }
                     : detail
             );
-    
-            // Cập nhật lại danh sách đơn hàng sau khi thay đổi trạng thái
+
             setOrderDetails(updatedOrderDetails);
-            setFilteredOrderDetails(updatedOrderDetails.filter(detail => currentFilter === "Tất cả" || detail.trang_thai?.ten_trang_thai === currentFilter));
-    
+            setFilteredOrderDetails(updatedOrderDetails.filter(detail => activeStatus === "Tất cả" || detail.trang_thai?.ten_trang_thai === activeStatus));
+
             alert("Yêu cầu trả hàng/Hoàn tiền đã được gửi.");
         } catch (error) {
             console.error("Lỗi khi yêu cầu trả hàng/Hoàn tiền:", error);
         }
     };
-    
 
     return (
         <div className={styles.parent}>
             <HeaderUser />
             <div className={styles.orderContainer}>
-                <h2 style={{fontSize: '30px', marginTop:'20px'}} className={styles.orderTitle}>Chi Tiết Đơn Hàng Của Tôi</h2>
+                <h2 style={{ fontSize: '25px', marginTop: '20px', textAlign: 'center' }} className={styles.orderTitle}>Chi Tiết Đơn Hàng Của Tôi</h2>
 
                 <div className={styles.orderTabs}>
-                    <button className={styles.buttonDonHang} onClick={() => filterOrderDetails("Tất cả")}>Tất cả</button>
-                    <button className={styles.buttonDonHang} onClick={() => filterOrderDetails("Đang xử lý")}>Đang xử lý</button>
-                    <button className={styles.buttonDonHang} onClick={() => filterOrderDetails("Đang vận chuyển")}>Đang vận chuyển</button>
-                    <button className={styles.buttonDonHang} onClick={() => filterOrderDetails("Đã giao hàng")}>Đã giao hàng</button>
-                    <button className={styles.buttonDonHang} onClick={() => filterOrderDetails("Khách hàng hủy")}>Khách hàng hủy</button>
-                    <button className={styles.buttonDonHang} onClick={() => filterOrderDetails("Yêu cầu Trả hàng / Hoàn tiền")}>Yêu cầu Trả hàng / Hoàn tiền</button>
+                    {["Tất cả", "Đang xử lý", "Đang vận chuyển", "Đã giao hàng", "Khách hàng hủy", "Yêu cầu Trả hàng / Hoàn tiền"].map(status => (
+                        <button
+                            key={status}
+                            className={`${styles.buttonDonHang} ${activeStatus === status ? styles.active : ''}`}
+                            onClick={() => filterOrderDetails(status)}
+                        >
+                            {status}
+                        </button>
+                    ))}
                 </div>
 
                 <div className={styles.orderList}>
                     {filteredOrderDetails.map(detail => (
                         <div key={detail.ma_don_hang_chi_tiet} className={styles.orderDetailItem}>
-                            <img src={detail.san_pham?.anh_san_pham} alt={detail.san_pham?.ten_san_pham} className={styles.productImage} />
-                            <div>
-                                <h4>{detail.san_pham?.ten_san_pham}</h4>
-                                <p>Số lượng: {detail.so_luong}</p>
-                                <p>Thành tiền: {(detail.gia * detail.so_luong).toLocaleString()} đ</p>
+                            <div className={styles.orderDetailHeaderM}>
+                                <div className={styles.orderDetailHeader}>
+                                    <div>
+                                        <a href='#'>Liên hệ với cửa hàng</a>
+                                    </div>
+                                    <div className={styles.orderDetailStatus}>
+                                        <p style={{ fontSize: '16px' }}>Trạng thái: {detail.trang_thai?.ten_trang_thai || "Không xác định"}</p>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div className={styles.orderDetailStatus}>
-                                <p>Trạng thái: {detail.trang_thai?.ten_trang_thai || "Không xác định"}</p>
+                            <div className={styles.orderDetailBodyM}>
+                                <div className={styles.orderDetailBody}>
+                                    <div style={{marginRight: '20px'}}><img src={detail.san_pham?.anh_san_pham} alt={detail.san_pham?.ten_san_pham} className={styles.productImage} /></div>
+                                    <div>
+                                        <h4 style={{ marginBottom: '20px', fontSize: '20px' }}>{detail.san_pham?.ten_san_pham}</h4>
+                                        <p style={{fontSize: '16px'}}>Số lượng: {detail.so_luong}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p style={{ fontSize: '16px' }}>Thành tiền: {(detail.gia * detail.so_luong).toLocaleString()} đ</p>
+                                </div>
+
                             </div>
-                            {/* Hiển thị nút hủy nếu trạng thái là "Đang xử lý" */}
-                            {detail.trang_thai?.ten_trang_thai === "Đang xử lý" && (
-                                <button className={styles.cancelButton} onClick={() => handleCancelOrderDetail(detail.ma_don_hang_chi_tiet)}>Huỷ đơn hàng</button>
-                            )}
-                            {/* Hiển thị nút "Đã nhận hàng" nếu trạng thái là "Đang vận chuyển" */}
-                            {detail.trang_thai?.ma_trang_thai === 12 && (
-                                <button className={styles.cancelButton} onClick={() => confirmReceivedOrderDetail(detail.ma_don_hang_chi_tiet)}>Đã nhận hàng</button>
-                            )}
-                            {detail.trang_thai?.ma_trang_thai === 13 && (
-                                <button className={styles.cancelButton} onClick={() => confirmTraHang(detail.ma_don_hang_chi_tiet)}>Yêu cầu trả hàng/Hoàn tiền</button>
-                            )}
+                            <div className={styles.orderDetailFooterM}>
+                                <div className={styles.orderDetailFooter}>
+                                    {detail.trang_thai?.ma_trang_thai === 11 && (
+                                        <button className={styles.cancelButton} onClick={() => handleCancelOrderDetail(detail.ma_don_hang_chi_tiet)}>Huỷ đơn hàng</button>
+                                    )}
+                                    {detail.trang_thai?.ma_trang_thai === 12 && (
+                                        <button className={styles.confirmOrderButton} onClick={() => confirmReceivedOrderDetail(detail.ma_don_hang_chi_tiet)}>Đã nhận hàng</button>
+                                    )}
+                                    {detail.trang_thai?.ma_trang_thai === 13 && (
+                                        <button className={styles.rateButton} onClick={() => confirmTraHang(detail.ma_don_hang_chi_tiet)}>Đánh giá</button>
+                                    )}
+                                    {detail.trang_thai?.ma_trang_thai === 13 && (
+                                        <button className={styles.returnmoneyButton} onClick={() => confirmTraHang(detail.ma_don_hang_chi_tiet)}>Yêu cầu trả hàng/Hoàn tiền</button>
+                                    )}
+                                </div>
+
+                            </div>
+
                         </div>
                     ))}
                 </div>
@@ -163,8 +179,8 @@ const DonHang = () => {
                                 <label><input type="radio" name="reason" value="Không lý do phù hợp" onChange={(e) => setSelectedReason(e.target.value)} /> Tôi không tìm thấy lý do hủy phù hợp</label>
                             </div>
                             <div className={styles.modalActions}>
-                                <button onClick={() => setShowCancelModal(false)} className={styles.cancelButton}>Đóng</button>
-                                <button onClick={confirmCancelOrderDetail} className={styles.cancelButton}>Xác nhận hủy</button>
+                                <button onClick={confirmCancelOrderDetail}>Xác nhận hủy</button>
+                                <button onClick={() => setShowCancelModal(false)}>Hủy bỏ</button>
                             </div>
                         </div>
                     </div>

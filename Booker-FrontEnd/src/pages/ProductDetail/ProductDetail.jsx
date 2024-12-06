@@ -105,6 +105,8 @@ const ProductDetail = () => {
 
         localStorage.setItem(cartKey, JSON.stringify(cart));
         alert("Sản phẩm đã được thêm vào giỏ hàng");
+        window.location.reload();
+
     };
 
     // Hàm "Mua ngay"
@@ -155,7 +157,7 @@ const ProductDetail = () => {
                                     -
                                 </button>
                                 <input
-                        
+                                    
                                     value={quantity}
                                     min="1"
                                     onChange={(e) => setQuantity(Number(e.target.value))}
@@ -163,7 +165,7 @@ const ProductDetail = () => {
                                 />
                                 <button
                                     className="quantityBtn"
-                                    onClick={() => setQuantity((prev) => prev + 1)}
+                                    onClick={() => setQuantity((prev) => (prev < product.con_hang ? prev + 1 : prev))}
                                 >
                                     +
                                 </button>

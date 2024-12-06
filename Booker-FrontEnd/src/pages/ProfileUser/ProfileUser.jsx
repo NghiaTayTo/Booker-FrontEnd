@@ -128,21 +128,7 @@ const ProfileUser = () => {
                         </form>
                     </div>
                 </div>
-                        <div className="profile-image-section">
-                            {selectedImage ? (
-                                <img src={selectedImage} alt="Ảnh đại diện" className="profile-image-placeholder" />
-                            ) : (
-                                <div className="profile-image-placeholder"></div>
-                            )}
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                className="choose-image-input"
-                                id="fileInput"
-                            />
-                            <p className="image-info">Dung lượng file tối đa 1 MB<br />Định dạng JPEG, PNG</p>
-                        </div>
+                        
             </section>
 
             <FooterUser />

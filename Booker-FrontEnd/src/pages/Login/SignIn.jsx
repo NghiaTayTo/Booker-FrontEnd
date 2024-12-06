@@ -75,22 +75,6 @@ const Login = () => {
                     <div className="forgot-password">
                         <Link to="/forgot-password">Quên mật khẩu</Link>
                     </div>
-                    <div className="login-or">
-                        <span>hoặc đăng nhập</span>
-                    </div>
-                    <div className="login-social">
-                        <button className="social-button facebook-button">
-                            <FaFacebook style={{ marginRight: '8px' }} /> {/* Icon Facebook */}
-                            Facebook
-                        </button>
-                        <button
-                            className="social-button google-button"
-                            onClick={() => window.location.href = "http://localhost:8080/oauth2/authorization/google"}
-                        >
-                            <FaGoogle style={{ marginRight: '8px' }} /> {/* Icon Google */}
-                            Đăng nhập bằng Google
-                        </button>
-                    </div>
                     <div className="login-register-link">
                         Chưa có tài khoản? <Link to="/register">Đăng ký tại đây</Link>
                     </div>

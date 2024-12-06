@@ -70,32 +70,14 @@ const RegisterSeller = () => {
     // Handle address form changes
 
     const handleSelectAddress = (selectedAddress) => {
-        setAddress(selectedAddress);
+        setPickupAddress(selectedAddress);
         sessionStorage.setItem('address', JSON.stringify(selectedAddress));
         setShowAddressSelector(false);
     };
 
 
     // Save the updated address
-const handleCompleteEditAddress = async () => {
-        try {
-            const updatedAddress = {
-                ten_dia_chi: `${addressFormData.specificAddress}, ${addressFormData.ward}, ${addressFormData.district}, ${addressFormData.city}`,
-                dia_chi_mac_dinh: true,
-                tai_khoan: { id_tai_khoan: user.id_tai_khoan },
-            };
 
-            const response = await axios.post(
-                `http://localhost:8080/api/v1/nguoidung/diachi/nguoidung-${user.id_tai_khoan}`,
-                updatedAddress
-            );
-
-            setPickupAddress(response.data);
-            setShowAddressForm(false);
-        } catch (error) {
-            console.error("Error updating address:", error);
-        }
-    };
 
     // Submit registration form
     const handleRegisterSeller = async () => {
@@ -171,7 +153,7 @@ const handleCompleteEditAddress = async () => {
                             value={shopName}
                             onChange={(e) => setShopName(e.target.value)}
                             placeholder="Nhập tên shop của bạn"
-style={{fontSize: '16px'}}
+                            style={{fontSize: '16px'}}
                         />
                     </div>
                     <div className="form-group">

@@ -44,15 +44,32 @@ const ShoppingCart = () => {
         updateCartInLocalStorage(updatedCart);
     };
 
+    const handleSelectItem = (productId) => {
+        const updatedCart = cart.map(item =>
+            item.ma_san_pham === productId ? { ...item, selected: !item.selected } : item
+        );
+        setCart(updatedCart);
+        updateCartInLocalStorage(updatedCart);
+    };
+
     const handleCheckout = () => {
+        const selectedItems = cart.filter(item => item.selected); // Lấy các sản phẩm được chọn
+        if (selectedItems.length === 0) {
+            alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
+            return;
+        }
+
         const user = JSON.parse(sessionStorage.getItem('user'));
         const cartKey = `cart_${user.id_tai_khoan}`;
-        
-        localStorage.setItem('checkoutCart', JSON.stringify(cart));
+
+        localStorage.setItem('checkoutCart', JSON.stringify(selectedItems)); // Lưu sản phẩm tick vào localStorage
         navigate('/checkout'); // Điều hướng đến trang Checkout
     };
 
-    const totalAmount = cart.reduce((total, item) => total + item.gia * item.so_luong, 0);
+    // Tính tổng tiền chỉ cho các sản phẩm được tick
+    const totalAmount = cart
+        .filter(item => item.selected) // Chỉ tính những sản phẩm được tick
+        .reduce((total, item) => total + item.gia * item.so_luong, 0);
 
     return (
         <div className={styles.parent}>
@@ -65,6 +82,11 @@ const ShoppingCart = () => {
                     <>
                         {cart.map(product => (
                             <div key={product.ma_san_pham} className="cart-product">
+                                <input
+                                    type="checkbox"
+                                    checked={product.selected || false}
+                                    onChange={() => handleSelectItem(product.ma_san_pham)}
+                                />
                                 <div className="product-details">
                                     <img src={product.anh_san_pham} alt="Book cover" className="product-image" />
                                     <div>
@@ -77,15 +99,37 @@ const ShoppingCart = () => {
                                 </div>
                                 <div className="product-quantity">
                                     <button className='buttonCart' onClick={() => handleQuantityChange(product.ma_san_pham, -1)}>-</button>
-                                    <input type="number" style={{width: '45px', height: '35px', border: 'none', padding: '5px'}} value={product.so_luong} readOnly />
-                                    <button className='buttonCart' style={{marginRight: '10px'}} onClick={() => handleQuantityChange(product.ma_san_pham, 1)}>+</button>
+                                    <input
+                                        type="number"
+                                        style={{ width: '45px', height: '35px', border: 'none', padding: '5px' }}
+                                        value={product.so_luong}
+                                        readOnly
+                                    />
+                                    <button
+                                        className='buttonCart'
+                                        style={{ marginRight: '10px' }}
+                                        onClick={() => handleQuantityChange(product.ma_san_pham, 1)}
+                                    >
+                                        +
+                                    </button>
                                 </div>
-                                <button style={{width: '45px', height: '35px', border: 'none', padding: '5px'}} onClick={() => handleRemoveItem(product.ma_san_pham)}>XÓA</button>
+                                <button
+                                    style={{ width: '45px', height: '35px', border: 'none', padding: '5px' }}
+                                    onClick={() => handleRemoveItem(product.ma_san_pham)}
+                                >
+                                    XÓA
+                                </button>
                             </div>
                         ))}
                         <div className="cart-summary">
                             <p>Tổng tiền hàng: {totalAmount.toLocaleString('vi-VN')} đ</p>
-                            <button style={{fontSize: '16px'}} onClick={handleCheckout} className="checkout-button">Tiến hành thanh toán</button>
+                            <button
+                                style={{ fontSize: '16px' }}
+                                onClick={handleCheckout}
+                                className="checkout-button"
+                            >
+                                Tiến hành thanh toán
+                            </button>
                         </div>
                     </>
                 )}

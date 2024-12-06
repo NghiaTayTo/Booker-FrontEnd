@@ -4,7 +4,8 @@ import { getAllBook } from '../../utils/API/ProductAPI';
 import { Link, useNavigate } from 'react-router-dom';
 import FooterUser from '../Component/FooterUser';
 import HeaderUser from '../Component/HeaderUser';
-
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 const HomeUser = () => {
     const [products, setProducts] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
@@ -13,22 +14,35 @@ const HomeUser = () => {
     const [user, setUser] = useState(null);
     const productsPerPage = 20; // Số sản phẩm mỗi trang
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const ma_the_loai = searchParams.get('ma_the_loai');
 
     useEffect(() => {
-        // Lấy danh sách sản phẩm ban đầu khi trang được tải
         const fetchProducts = async () => {
             try {
-                const data = await getAllBook();
-                setProducts(data);
+                if (ma_the_loai) {
+                    // Fetch theo mã thể loại
+                    const response = await axios.get(
+                        `http://localhost:8080/api/v1/sanpham/00000-1000000/orderBy-no%20sort/theloai?ma_the_loai=${ma_the_loai}`
+                    );
+                    setProducts(response.data);
+                } else {
+                    // Fetch toàn bộ sản phẩm nếu không có ma_the_loai
+                    const data = await getAllBook();
+                    setProducts(data);
+                }
             } catch (error) {
-                console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+                console.error('Lỗi khi lấy sản phẩm:', error);
             }
         };
+    
         fetchProducts();
-    }, []);
+    }, [ma_the_loai]);
+    
 
     // Hàm xử lý khi có kết quả tìm kiếm từ HeaderUser
     const handleSearchResults = (results) => {
+        console.log("Search results:", results);
         setSearchResults(results);
         setIsSearching(results.length > 0);
         setCurrentPage(1); // Quay về trang đầu khi có kết quả tìm kiếm mới
@@ -51,6 +65,8 @@ const HomeUser = () => {
 
     // Tính số trang dựa trên số lượng sản phẩm
     const totalPages = Math.ceil(((isSearching ? searchResults : products) || []).length / productsPerPage);
+
+    
 
     return (
         <div className={styles.parent}>

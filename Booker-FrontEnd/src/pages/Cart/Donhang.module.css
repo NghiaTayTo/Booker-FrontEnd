@@ -1,169 +1,249 @@
-.parent {
-    background-color: #f8f8f8;
-    padding: 20px;
+/* Định dạng phần Tabs (Các trạng thái đơn hàng) */
+.parent{
+    width: 1200px;
+    margin: 0 auto;
 }
 
-.orderContainer {
-    max-width: 800px;
-    margin: auto;
+.orderTabs {
+    display: flex;
+    justify-content: center; /* Canh giữa các nút */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px;
 }
 
-.orderTitle {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+.buttonDonHang {
+    padding: 10px 20px;
+    font-size: 14px;
     color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Hiệu ứng mượt */
 }
 
+.buttonDonHang:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+}
+
+.buttonDonHang.active {
+    background-color: #ff9800;
+    color: white;
+    border-color: #ff9800;
+}
+
+
+/* Định dạng cho danh sách đơn hàng */
 .orderList {
     margin-top: 20px;
-    font-size: 16px;
-}
-
-.orderItem {
-    background-color: #fff;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.orderSummary, .orderStatus, .orderActions {
-    display: flex;
-    flex-direction: column;
-}
-
-.cancelButton {
-    background-color: #ff4d4d;
-    color: white;
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    
-}
-
-
-
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.orderDetailsContainer {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 600px;
-    max-width: 90%;
-    position: relative;
-    font-size: 16px;
-}
-
-.closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #fff;
-    color: #000;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
 }
 
 .orderDetailItem {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    justify-content: space-between;
-}
 
+    padding:  15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    height: auto;
+}
 
 .productImage {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
     margin-right: 15px;
-    border-radius: 8px;
 }
 
-.orderDetailStatus {
+
+
+h4 {
     font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+
+p {
+    margin: 5px 0;
     color: #666;
 }
 
+.orderDetailStatus {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cancelButton {
+    background-color: #cc2020;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.cancelButton:hover {
+    background-color: #e65c00;
+}
+.confirmOrderButton{
+    background-color: #2931a7;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+.confirmOrderButton :hover{
+    background-color: #333dc9;
+}
+.returnmoneyButton{
+    background-color: #cc2020;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    margin-left: 20px;
+}
+.returnmoneyButton :hover{
+    background-color: #e74b4b;
+}
+.rateButton{
+    background-color: #f46d06;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+.rateButton :hover{
+    background-color: #e65c00;
+}
+
+/* Định dạng cho modal hủy đơn hàng */
 .cancelModal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     z-index: 1000;
 }
 
 .modalContent {
-    background: white;
+    background-color: white;
     padding: 20px;
-    border-radius: 8px;
-    width: 600px;
-    max-width: 90%;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.reasonOptions {
+    margin-bottom: 20px;
+}
+
+.reasonOptions label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
 }
 
 .modalActions {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
-}
-.buttonDonHang{
-    background-color: #000;
-    margin: 5px;
-    color: #fff;
-    border-radius: 10px;
-
-    padding: 10px;
-    
 }
 
-.orderTabs :hover{
-    background-color: #f96565;
-}
-.reasonOptions{
-    font-size: 16px;
-
-}
-.reasonOptions label{
-    display: block;
+button {
+    padding: 10px 20px;
+    border: none;
     cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
-.closeModalButton, .confirmCancelButton{
-    background-color: #fff;
-    color: red;
-    margin-top: 20px;
-}
-.invoiceImage{
-    width: 50%;
-}
-.orderTabs{
-    font-size: 12px;
-    font-family: Arial, Helvetica, sans-serif;
-   
 
+button:hover {
+    opacity: 0.8;
 }
+
+
+/* Responsive Design cho thiết bị di động */
+@media (max-width: 768px) {
+    .orderTabs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttonDonHang {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+
+
+    .productImage {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cancelButton {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .cancelModal {
+        padding: 20px;
+    }
+
+    .modalContent {
+        width: 90%;
+        padding: 20px;
+    }
+}
+.orderDetailHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.orderDetailHeaderM{
+    margin-bottom: 20px;
+}
+.orderDetailHeader  a{
+    font-size: 16px;
+}
+.orderDetailBodyM{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.orderDetailBody{
+    display: flex;
+}
+.orderDetailFooter{
+    display: flex;
+    justify-content: flex-end;
+}
+
